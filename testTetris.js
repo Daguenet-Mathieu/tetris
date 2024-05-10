@@ -165,11 +165,19 @@ const game = {
         const self = this;
         document.body.addEventListener("keydown", function(event, ){
         allowTimeout = false;
-        //console.log(event.key)
+        console.log(event.key)
         //console.log(self.currentPiece);
         if (event.key == "a" || event.key == "d")
         {
             fctRotate(event.key, self.currentPiece);
+        }
+        if (event.key == "ArrowDown")
+        {
+            for (let i = 0; i < self.currentPiece.positions.length; i++)
+            {
+                if (self.currentPiece.positions[i].y < 19)
+                    self.currentPiece.positions[i].y += 1;
+            }
         }
         if (event.key == "ArrowLeft")
         {
@@ -234,6 +242,8 @@ game.start();
 //     }, 1000); // Appel de la méthode down toutes les 1000 millisecondes (1 seconde)
 // }
 
-[{x:4,y:0},{x:4,y:1},{x:4,y:2},{x:4,y:3}]
-[{x:3,y:2},{x:4,y:2},{x:5,y:2},{x:6,y:2}]
-[{x:3,y:1},{x:4,y:1},{x:5,y:1},{x:6,y:1}]
+// [{x:4,y:0},{x:4,y:1},{x:4,y:2},{x:4,y:3}]
+// [{x:3,y:2},{x:4,y:2},{x:5,y:2},{x:6,y:2}]
+// [{x:3,y:1},{x:4,y:1},{x:5,y:1},{x:6,y:1}]
+// [{x:5,y:0},{x:5,y:1},{x:5,y:2},{x:5,y:3}]
+
