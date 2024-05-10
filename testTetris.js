@@ -171,14 +171,17 @@ const game = {
         {
             fctRotate(event.key, self.currentPiece);
         }
-        if (event.key == "ArrowDown")
-        {
-            for (let i = 0; i < self.currentPiece.positions.length; i++)
-            {
-                if (self.currentPiece.positions[i].y < 19)
-                    self.currentPiece.positions[i].y += 1;
-            }
-        }
+        //let pos = self.currentPiece.positions;
+        //for (let i = 0; i < pos.length; i++)
+        //  incrementer la vleur  a check
+        // if (event.key == "ArrowDown")
+        // {
+        //     for (let i = 0; i < self.currentPiece.positions.length; i++)
+        //     {
+        //         if (self.currentPiece.positions[i].y < 19)
+        //             self.currentPiece.positions[i].y += 1;
+        //     }
+        // }
         if (event.key == "ArrowLeft")
         {
             for (let i = 0; i < self.currentPiece.positions.length; i++)
