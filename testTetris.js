@@ -450,6 +450,8 @@ const game = {
         }
        // console.log("angle fin event", self.currentPiece.angle);
         allowTimeout = true;
+        // clearInterval(fallPiece);
+        // fallPiece();
     })},
     fall: function (speed){
         // console.log("perf now ", performance.now());
@@ -501,7 +503,7 @@ function fallPiece(game)
         game.moved = 0;
     }
     if (isValid(game.currentPiece, game.map))
-    game.draw();
+        game.draw();
     else
     {
         addInMap(game.map, game.currentPiece)
