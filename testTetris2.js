@@ -38,15 +38,19 @@ function drawCanevas(canvas, map){
     for (let y = 0; y < map.length; y++) {
         for (let x = 0; x < map[y].length; x++) {
             canvas.fillStyle = map[y][x];
-            canvas.fillRect(x * 40, y * 40, 40, 40);//taille d'une case
+            canvas.fillRect(x * 40, y * 40, 40, 40);
         }
     }
 }
 
 function drawPiece(canvas, piece){
-    for (let x = 0; x < piece.positions.length; x++) {
-        canvas.fillStyle = piece.color;
-        canvas.fillRect(piece.positions[x].x * 40, piece.positions[x].y * 40, 40, 40);//taille d'une case
+    console.log("piece ", piece);
+    for (let y = 0; y < map.length; y++) {
+        for (let x = 0; x < map[y].length; x++) {
+            canvas.fillStyle = piece.color;
+            canvas.fillRect(x * 40, y * 40, 40, 40);
+            //canvas.fillRect((piece.start.y + x) * 40, (piece.start.y + y) * 40, 40, 40);
+        }
     }
 }
 
@@ -503,15 +507,181 @@ let allowTimeout = true;
 // game.time = performance.now();
 // game.start();
 
+function tetriminoI(){
+    const piece = {
+        width: 4,
+        color: "#0000FF",
+        start: {x: 1, y: 0},
+        positions: []
+    };
+    piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
+    piece.positions[0][1] = piece.color;
+    piece.positions[1][1] = piece.color;
+    piece.positions[2][1] = piece.color;
+    piece.positions[3][1] = piece.color;
+    return (piece);
+}
+
+function tetriminoO(){
+    const piece = {
+        width: 4,
+        color: "#0000FF",
+        start: {x: 1, y: 0},
+        positions: []
+    };
+    piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
+    piece.positions[0][1] = piece.color;
+    piece.positions[1][1] = piece.color;
+    piece.positions[2][1] = piece.color;
+    piece.positions[3][1] = piece.color;
+    return (piece);
+}
+
+function tetriminoT(){
+    const piece = {
+        width: 4,
+        color: "#0000FF",
+        start: {x: 1, y: 0},
+        positions: []
+    };
+    piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
+    piece.positions[0][1] = piece.color;
+    piece.positions[1][1] = piece.color;
+    piece.positions[2][1] = piece.color;
+    piece.positions[3][1] = piece.color;
+    return (piece);
+}
+
+function tetriminoL(){
+    const piece = {
+        width: 4,
+        color: "#0000FF",
+        start: {x: 1, y: 0},
+        positions: []
+    };
+    piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
+    piece.positions[0][1] = piece.color;
+    piece.positions[1][1] = piece.color;
+    piece.positions[2][1] = piece.color;
+    piece.positions[3][1] = piece.color;
+    return (piece);
+}
+
+function tetriminoJ(){
+    const piece = {
+        width: 4,
+        color: "#0000FF",
+        start: {x: 1, y: 0},
+        positions: []
+    };
+    piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
+    piece.positions[0][1] = piece.color;
+    piece.positions[1][1] = piece.color;
+    piece.positions[2][1] = piece.color;
+    piece.positions[3][1] = piece.color;
+    return (piece);
+}
+
+function tetriminoS(){
+    const piece = {
+        width: 4,
+        color: "#0000FF",
+        start: {x: 1, y: 0},
+        positions: []
+    };
+    piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
+    piece.positions[0][1] = piece.color;
+    piece.positions[1][1] = piece.color;
+    piece.positions[2][1] = piece.color;
+    piece.positions[3][1] = piece.color;
+    return (piece);
+}
+
+function tetriminoZ(){
+    const piece = {
+        width: 4,
+        color: "#0000FF",
+        start: {x: 1, y: 0},
+        positions: []
+    };
+    piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
+    piece.positions[0][1] = piece.color;
+    piece.positions[1][1] = piece.color;
+    piece.positions[2][1] = piece.color;
+    piece.positions[3][1] = piece.color;
+    return (piece);
+}
+
+function getNextPiece2(){
+    const fctPiece = [tetriminoI, tetriminoO, tetriminoT, tetriminoL, tetriminoJ, tetriminoS, tetriminoZ]
+    return (fctPiece[Math.round(Math.random()*10)%7]());
+}
+
+
+// function getNextPiece22(){
+//     const piece = [{
+//         positions: [{x:5,y:0},{x:4,y:0},{x:4,y:1},{x:4,y:2}],
+//         angle: 0,
+//         color:  "#7F00FF",
+//         movable: true
+//     },
+//     {
+//         positions: [{x:4,y:0},{x:3,y:0},{x:4,y:1},{x:4,y:2}],
+//         axe: {x: 3.5, y:1.5},
+//         angle: 0,
+//         color:  "#00FF00",
+//         movable: true
+//     },
+//     {
+//         positions: [{x:4,y:0},{x:4,y:1},{x:4,y:2},{x:4,y:3}],
+//         axe: {x: 3.5, y:1.5},
+//         angle: 0,
+//         color:  "#0000FF",
+//         movable: true
+//     },
+//     {
+//         positions: [{x:3,y:1},{x:4,y:1},{x:5,y:1},{x:4,y:0}],
+//         axe: {x: 3.5, y:1.5},
+//         angle: 0,
+//         color:  "#FF0000",
+//         movable: true
+//     },
+//     {
+//         positions: [{x:3,y:0},{x:3,y:1},{x:4,y:0},{x:4,y:1}],
+//         axe: {x: 3.5, y:1.5},
+//         angle: 0,
+//         color:  "#FFD700",
+//         movable: true
+//     },
+//     {
+//         positions: [{x:3,y:0},{x:4,y:0},{x:4,y:1},{x:5,y:1}],
+//         axe: {x: 3.5, y:1.5},
+//         angle: 0,
+//         color:  "#808080",
+//         movable: true
+//     },
+//     {
+//         positions: [{x:4,y:0},{x:5,y:0},{x:3,y:1},{x:4,y:1}],
+//         axe: {x: 3.5, y:1.5},
+//         angle: 0,
+//         color:  " #ED7F10",
+//         movable: true
+//     }];
+//     console.log("rand = ", Math.round(Math.random()*10)%7);
+//     return (piece[Math.round(Math.random()*10)%7]);
+// }
+
+
 
 time = performance.now();
 let events = [];
 const canvas = getCanevas();
 const map = initMap();
-let currentPiece = getNextPiece();
-let nextPiece = getNextPiece();
+let currentPiece = getNextPiece2();
+let nextPiece = getNextPiece2();
 
 function draw(){
+    console.log("//////////////////////");
     drawCanevas(canvas, map);
     drawPiece(canvas, currentPiece);
 }
@@ -522,7 +692,7 @@ function fallPiece(game)
       events.push("drop");
     }, 600);
 }
-
+console.log(currentPiece);
 function myEvent(){
     document.body.addEventListener("keydown", function(event, ){
         const listen = ["ArrowLeft", "ArrowDown", "ArrowUp","ArrowRight", "a", "d"];
@@ -544,29 +714,42 @@ function allowedMove(pos)
     return (true);
 }
 
+function checkPos(newpos)
+{
+    for (let i = 0; i < currentPiece.positions.length; i++)
+    {
+        if (newpos.x + i >= 0 && newpos.x + i < 20)
+        {
+            for (let j = 0; j < currentPiece.positions.length; j++)
+            {
+                console.log("i ", i," j ", j);
+                console.log(currentPiece.positions[i][j]);
+            }
+        }
+        else if (currentPiece.positions[i][j] == currentPiece.color)
+            return (true);
+    }
+    return (false);
+}
+
 function fctDrop()
 {
     let newy;
     let error = false;
-    let newpos = [];
+    let newpos = {x: currentPiece.start.x, y: currentPiece.start.y+1};
    // console.log("map : ", map);
-    for (let i = 0; i < currentPiece.positions.length; i++)
-    {
-        newy = currentPiece.positions[i].y + 1;
-        if (newy > 19)
-            error = true;
-        newpos.push({y:newy, x:currentPiece.positions[i].x});
-    }
+    newy = currentPiece.start.y + 1;
+    error = checkPos({y:newy, x:currentPiece.start.x});
     console.log(error);
     console.log(newpos);
-    if (error || !allowedMove(newpos))
-    {
-        addInMap(map, currentPiece);
-        currentPiece = nextPiece;
-        nextPiece = getNextPiece();
-    }
-    else
-        currentPiece.positions = newpos;
+    // if (error || !allowedMove(newpos))
+    // {
+    //     addInMap(map, currentPiece);
+    //     currentPiece = nextPiece;
+    //     nextPiece = getNextPiece();
+    // }
+    // else
+    currentPiece.start = newpos;
 }
 
 
