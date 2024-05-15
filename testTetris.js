@@ -34,11 +34,12 @@ const piece = {
 };
 
 function drawCanevas(canvas, map){
-    //console.log('canevas');
     for (let y = 0; y < map.length; y++) {
         for (let x = 0; x < map[y].length; x++) {
             canvas.fillStyle = map[y][x];
-            canvas.fillRect(x * 40, y * 40, 40, 40);//taille d'une case
+            canvas.fillRect(x * 40, y * 40, 40, 40);
+            canvas.strokeStyle = "#F0F0F2";
+            canvas.strokeRect(x * 40, y * 40, 40, 40);
         }
     }
 }
@@ -46,9 +47,19 @@ function drawCanevas(canvas, map){
 function drawPiece(canvas, piece){
     for (let x = 0; x < piece.positions.length; x++) {
         canvas.fillStyle = piece.color;
-        canvas.fillRect(piece.positions[x].x * 40, piece.positions[x].y * 40, 40, 40);//taille d'une case
+        canvas.fillRect(piece.positions[x].x * 40, piece.positions[x].y * 40, 40, 40);
     }
 }
+
+function drawShadow(canvas){
+    let newpiece = JSON.parse(JSON.stringify(currentPiece));
+    while (fctDrop(newpiece, 1));
+    for (let x = 0; x < newpiece.positions.length; x++) {
+        canvas.fillStyle = newpiece.color + "3F";
+        canvas.fillRect(newpiece.positions[x].x * 40, newpiece.positions[x].y * 40, 40, 40);
+    }
+}
+
 
 // function fctRotate(piece){
     //     console.log(piece);
@@ -98,30 +109,30 @@ function isValid(piece, map){
     return true;
 }
 
-function fctRotate(piece) {
-    //console.log("''''''''''''''''''''''''''''''''''''''''''", piece);
+// function fctRotate(piece) {
+//     //console.log("''''''''''''''''''''''''''''''''''''''''''", piece);
+// //     for (let i = 0; i < piece.positions.length; i++) {
+// //         let tmpx = piece.positions[i].y + (piece.axe.x - piece.axe.y);
+// //         let tmpy = piece.positions[i].x + (piece.axe.y - piece.axe.x);
+// //         piece.positions[i].x = tmpx;
+// //         piece.positions[i].y = tmpy;
+// //     }
+// //     console.log(piece);
+//     let tmp = [];
+//     //console.log("angle ", piece.angle);
 //     for (let i = 0; i < piece.positions.length; i++) {
-//         let tmpx = piece.positions[i].y + (piece.axe.x - piece.axe.y);
-//         let tmpy = piece.positions[i].x + (piece.axe.y - piece.axe.x);
-//         piece.positions[i].x = tmpx;
-//         piece.positions[i].y = tmpy;
+//         let tmpx, tmpy;
+//         if (piece.angle === 90 || piece.angle === 180) { 
+//             tmpx = piece.positions[i].y + (piece.axe.x - piece.axe.y);
+//             tmpy = piece.positions[i].x + (piece.axe.y - piece.axe.x);
+//         } else if (piece.angle === 270 || piece.angle === 0) { 
+//             tmpx = piece.axe.x * 2 - piece.positions[i].x;
+//             tmpy = piece.axe.y * 2 - piece.positions[i].y;
+//         }
+//         if (tmpx < 10 && tmpx > 0 && tmpy > 0 && tmpy < 20)
+//             tmp.push({x:tmpx, y:tmpy});
 //     }
-//     console.log(piece);
-    let tmp = [];
-    //console.log("angle ", piece.angle);
-    for (let i = 0; i < piece.positions.length; i++) {
-        let tmpx, tmpy;
-        if (piece.angle === 90 || piece.angle === 180) { 
-            tmpx = piece.positions[i].y + (piece.axe.x - piece.axe.y);
-            tmpy = piece.positions[i].x + (piece.axe.y - piece.axe.x);
-        } else if (piece.angle === 270 || piece.angle === 0) { 
-            tmpx = piece.axe.x * 2 - piece.positions[i].x;
-            tmpy = piece.axe.y * 2 - piece.positions[i].y;
-        }
-        if (tmpx < 10 && tmpx > 0 && tmpy > 0 && tmpy < 20)
-            tmp.push({x:tmpx, y:tmpy});
-    }
-}
+// }
 
 
 function fctDown(piece){
@@ -152,7 +163,7 @@ function initMap() {
 
 function getNextPiece(){
     let piece = [{
-        positions: [{x:5,y:0},{x:4,y:0},{x:4,y:1},{x:4,y:2}],
+        positions: [{x:4,y:0},{x:3,y:0},{x:3,y:1},{x:3,y:2}],
         axe: {x: 3.5, y:1.5},
         angle: 0,
         color:  "#7F00FF",
@@ -166,7 +177,7 @@ function getNextPiece(){
         movable: true
     },
     {
-        positions: [{x:4,y:0},{x:4,y:1},{x:4,y:2},{x:4,y:3}],
+        positions: [{x:3,y:0},{x:3,y:1},{x:3,y:2},{x:3,y:3}],
         axe: {x: 3.5, y:1.5},
         angle: 0,
         color:  "#0000FF",
@@ -514,6 +525,7 @@ let nextPiece = getNextPiece();
 function draw(){
     drawCanevas(canvas, map);
     drawPiece(canvas, currentPiece);
+    drawShadow(canvas);
 }
 
 function fallPiece(game)
@@ -544,29 +556,36 @@ function allowedMove(pos)
     return (true);
 }
 
-function fctDrop()
+function rotate()
+{
+    for (let i = 0; i < currentPiece.positions.length;i++)
+    {
+
+    }
+}
+
+function fctDrop(piece, shaddow)
 {
     let newy;
     let error = false;
     let newpos = [];
-   // console.log("map : ", map);
-    for (let i = 0; i < currentPiece.positions.length; i++)
+    for (let i = 0; i < piece.positions.length; i++)
     {
-        newy = currentPiece.positions[i].y + 1;
+        newy = piece.positions[i].y + 1;
         if (newy > 19)
             error = true;
-        newpos.push({y:newy, x:currentPiece.positions[i].x});
+        newpos.push({y:newy, x:piece.positions[i].x});
     }
-    console.log(error);
-    console.log(newpos);
     if (error || !allowedMove(newpos))
     {
-        addInMap(map, currentPiece);
-        currentPiece = nextPiece;
+        if (shaddow)
+            return (false);
+        addInMap(map, piece);
+        currentPiece = getNextPiece();
         nextPiece = getNextPiece();
     }
-    else
-        currentPiece.positions = newpos;
+    piece.positions = newpos;
+    return (true);
 }
 
 
@@ -604,18 +623,31 @@ function loop()
     lastSize = size
     let move = events.shift();
     if (move == "drop")
-        fctDrop(currentPiece);
+        fctDrop(currentPiece, 0);
     if (move == "ArrowDown")
     {
-        fctDrop(currentPiece);
-        fctDrop(currentPiece);
+        fctDrop(currentPiece, 0);
+        fctDrop(currentPiece, 0);
     }
     if (move == "ArrowRight")
         lateralMove(+1);
     if (move == "ArrowLeft")
         lateralMove(-1);
+    if (move == "a")
+        rotate();
     removeLine(map);
     draw();
     requestAnimationFrame(loop);
 }
 loop();
+
+
+// [{x:-1, y:+1},{x:0, y:0},{x:+1, y:-1},{x:+2, y:-2}]
+// [{x:+2, y:-1},{x:+1, y:0},{x:0, y:+1},{x:-1, y:+2}]
+// [{x:-2, y:+2},{x:-1, y:+1},{x:0, y:0},{x:+1, y:-1}]
+// [{x:+1, y:-2},{x:0, y:-1},{x:-1, y:0},{x:-2, y:+1}]
+
+// [{x:3,y:0},{x:3,y:1},{x:3,y:2},{x:3,y:3}]
+// [{x:2,y:1},{x:3,y:1},{x:4,y:1},{x:5,y:1}]
+// [{x:4,y:0},{x:4,y:1},{x:4,y:2},{x:4,y:3}]
+// [{x:2,y:2},{x:3,y:2},{x:4,y:2},{x:5,y:2}]

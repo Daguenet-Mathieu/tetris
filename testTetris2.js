@@ -45,10 +45,11 @@ function drawCanevas(canvas, map){
 
 function drawPiece(canvas, piece){
     console.log("piece ", piece);
-    for (let y = 0; y < map.length; y++) {
-        for (let x = 0; x < map[y].length; x++) {
-            canvas.fillStyle = piece.color;
-            canvas.fillRect(x * 40, y * 40, 40, 40);
+    for (let y = 0; y < piece.width; y++) {
+        for (let x = 0; x < piece.width; x++) {
+            let color = piece.positions[y][x];
+            canvas.fillStyle = color;
+            canvas.fillRect((piece.start.x + x) * 40, (piece.start.y + y) * 40, 40, 40);
             //canvas.fillRect((piece.start.y + x) * 40, (piece.start.y + y) * 40, 40, 40);
         }
     }
@@ -507,11 +508,12 @@ let allowTimeout = true;
 // game.time = performance.now();
 // game.start();
 
+
 function tetriminoI(){
     const piece = {
         width: 4,
         color: "#0000FF",
-        start: {x: 1, y: 0},
+        start: {x: 3, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
@@ -525,90 +527,90 @@ function tetriminoI(){
 function tetriminoO(){
     const piece = {
         width: 4,
-        color: "#0000FF",
-        start: {x: 1, y: 0},
+        color: "#FFD700",
+        start: {x: 3, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
     piece.positions[0][1] = piece.color;
+    piece.positions[0][2] = piece.color;
     piece.positions[1][1] = piece.color;
-    piece.positions[2][1] = piece.color;
-    piece.positions[3][1] = piece.color;
+    piece.positions[1][2] = piece.color;
     return (piece);
 }
 
 function tetriminoT(){
     const piece = {
         width: 4,
-        color: "#0000FF",
-        start: {x: 1, y: 0},
+        color: "#FF0000",
+        start: {x: 3, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
-    piece.positions[0][1] = piece.color;
+    piece.positions[1][2] = piece.color;
     piece.positions[1][1] = piece.color;
-    piece.positions[2][1] = piece.color;
-    piece.positions[3][1] = piece.color;
+    piece.positions[1][0] = piece.color;
+    piece.positions[0][1] = piece.color;
     return (piece);
 }
 
 function tetriminoL(){
     const piece = {
         width: 4,
-        color: "#0000FF",
-        start: {x: 1, y: 0},
+        color: "#7F00FF",
+        start: {x: 3, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
+    piece.positions[1][0] = piece.color;
+    piece.positions[0][0] = piece.color;
     piece.positions[0][1] = piece.color;
-    piece.positions[1][1] = piece.color;
-    piece.positions[2][1] = piece.color;
-    piece.positions[3][1] = piece.color;
+    piece.positions[0][2] = piece.color;
     return (piece);
 }
 
 function tetriminoJ(){
     const piece = {
         width: 4,
-        color: "#0000FF",
-        start: {x: 1, y: 0},
+        color: "#00FF00",
+        start: {x: 3, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
-    piece.positions[0][1] = piece.color;
+    piece.positions[0][2] = piece.color;
+    piece.positions[1][0] = piece.color;
     piece.positions[1][1] = piece.color;
-    piece.positions[2][1] = piece.color;
-    piece.positions[3][1] = piece.color;
+    piece.positions[1][2] = piece.color;
     return (piece);
 }
 
 function tetriminoS(){
     const piece = {
         width: 4,
-        color: "#0000FF",
-        start: {x: 1, y: 0},
+        color: "#ED7F10",
+        start: {x: 3, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
     piece.positions[0][1] = piece.color;
+    piece.positions[0][2] = piece.color;
+    piece.positions[1][0] = piece.color;
     piece.positions[1][1] = piece.color;
-    piece.positions[2][1] = piece.color;
-    piece.positions[3][1] = piece.color;
     return (piece);
 }
 
 function tetriminoZ(){
     const piece = {
         width: 4,
-        color: "#0000FF",
-        start: {x: 1, y: 0},
+        color: "#808080",
+        start: {x: 3, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
+    piece.positions[0][0] = piece.color;
     piece.positions[0][1] = piece.color;
     piece.positions[1][1] = piece.color;
-    piece.positions[2][1] = piece.color;
-    piece.positions[3][1] = piece.color;
+    piece.positions[1][2] = piece.color;
     return (piece);
 }
 
