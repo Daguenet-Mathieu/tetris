@@ -19,8 +19,8 @@ function drawCanevas(canvas, map){
 
 function drawPreview(canvas, piece) {
     console.log(piece);
-    for (let y = 0; y < 4; y++) {
-        for (let x = 0; x < 4; x++) {
+    for (let y = 0; y < piece.width; y++) {
+        for (let x = 0; x < piece.width; x++) {
             piece.fillStyle = "#FFFFFF";
             console.log(piece);
             if (typeof nextPiece.positions[y] !== 'undefined' && typeof piece.positions[y][x] !== 'undefined') {
@@ -211,7 +211,7 @@ function tetriminoL(){
     piece.positions[0][0] = piece.color;
     piece.positions[0][1] = piece.color;
     piece.positions[1][1] = piece.color;
-    piece.positions[1][2] = piece.color;
+    piece.positions[2][1] = piece.color;
     return (piece);
 }
 
