@@ -56,29 +56,18 @@ function isValid(piece, map){
 }
 
 function fctRotate(dir) {
-    let newpos =  new Array(4);
+    let newpos =  new Array(currentPiece.width);
     let col = currentPiece.width - 1;
     for (let i = 0; i < currentPiece.positions.length; i++)
     {
         newpos[i] = [];
         for (let j = 0; j < currentPiece.positions[i].length; j++)
-        {
-            // console.log("col == ", col);
-            // console.log("j == ", j);
-            // console.log("current pos ", currentPiece.positions[j][col]);
             newpos[i].push(currentPiece.positions[j][col]);
-        }
         col--
     }
-    // console.log(newpos.length);
-    // console.log(newpos[0].length);
-    currentPiece.positions = newpos;
-    // console.log(currentPiece.positions.length);
-    // console.log(currentPiece.positions[0].length);
-    // console.log(currentPiece);
-    // console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+    if (!checkPos(newpos, currentPiece.start))
+        currentPiece.positions = newpos;
 }
-
 
 function fctDown(piece){
     piece.axe.y += 1;
@@ -101,60 +90,6 @@ function initMap() {
     const tab = new Array(numRows).fill().map(() => new Array(numCols).fill("#FFFFFF"));
 
     return tab;
-}
-
-
-function getNextPiece(){
-    let piece = [{
-        positions: [{x:5,y:0},{x:4,y:0},{x:4,y:1},{x:4,y:2}],
-        axe: {x: 3.5, y:1.5},
-        angle: 0,
-        color:  "#7F00FF",
-        movable: true
-    },
-    {
-        positions: [{x:4,y:0},{x:3,y:0},{x:4,y:1},{x:4,y:2}],
-        axe: {x: 3.5, y:1.5},
-        angle: 0,
-        color:  "#00FF00",
-        movable: true
-    },
-    {
-        positions: [{x:4,y:0},{x:4,y:1},{x:4,y:2},{x:4,y:3}],
-        axe: {x: 3.5, y:1.5},
-        angle: 0,
-        color:  "#0000FF",
-        movable: true
-    },
-    {
-        positions: [{x:3,y:1},{x:4,y:1},{x:5,y:1},{x:4,y:0}],
-        axe: {x: 3.5, y:1.5},
-        angle: 0,
-        color:  "#FF0000",
-        movable: true
-    },
-    {
-        positions: [{x:3,y:0},{x:3,y:1},{x:4,y:0},{x:4,y:1}],
-        axe: {x: 3.5, y:1.5},
-        angle: 0,
-        color:  "#FFD700",
-        movable: true
-    },
-    {
-        positions: [{x:3,y:0},{x:4,y:0},{x:4,y:1},{x:5,y:1}],
-        axe: {x: 3.5, y:1.5},
-        angle: 0,
-        color:  "#808080",
-        movable: true
-    },
-    {
-        positions: [{x:4,y:0},{x:5,y:0},{x:3,y:1},{x:4,y:1}],
-        axe: {x: 3.5, y:1.5},
-        angle: 0,
-        color:  " #ED7F10",
-        movable: true
-    }];
-    return (piece[Math.round(Math.random()*10)%7]);
 }
 
 function addInMap(map, piece){
@@ -187,8 +122,6 @@ function removeLine(map)
     }
 }
 
-let allowTimeout = true;
-
 function tetriminoI(){
     const piece = {
         width: 4,
@@ -212,9 +145,6 @@ function tetriminoO(){
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
-    // console.log(piece.positions.length);
-    // console.log(piece.positions[0].length);
-    // console.log(piece);
     piece.positions[0][0] = piece.color;
     piece.positions[0][1] = piece.color;
     piece.positions[1][0] = piece.color;
@@ -224,7 +154,7 @@ function tetriminoO(){
 
 function tetriminoT(){
     const piece = {
-        width: 4,
+        width: 3,
         color: "#FF0000",
         start: {x: 3, y: 0},
         positions: []
@@ -239,13 +169,13 @@ function tetriminoT(){
 
 function tetriminoL(){
     const piece = {
-        width: 4,
+        width: 3,
         color: "#7F00FF",
         start: {x: 3, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
-    piece.positions[1][0] = piece.color;
+    piece.positions[1][2] = piece.color;
     piece.positions[0][0] = piece.color;
     piece.positions[0][1] = piece.color;
     piece.positions[0][2] = piece.color;
@@ -254,7 +184,7 @@ function tetriminoL(){
 
 function tetriminoJ(){
     const piece = {
-        width: 4,
+        width: 3,
         color: "#00FF00",
         start: {x: 3, y: 0},
         positions: []
@@ -304,14 +234,11 @@ function getNextPiece2(){
 
 
 
-time = performance.now();
 let events = [];
 const canvas = getCanevas();
 const map = initMap();
 let currentPiece = getNextPiece2();
 let nextPiece = getNextPiece2();
-
-console.log(currentPiece);
 
 function draw(){
     drawCanevas(canvas, map);
@@ -330,24 +257,20 @@ function myEvent(){
         const listen = ["ArrowLeft", "ArrowDown", "ArrowUp","ArrowRight", "a", "d"];
         if (listen.find((key) => key == event.key) != undefined)
             events.push(event.key);
+        console.log("event ", event.key);
     })}
 
-function checkPos(piece, newpos)
+function checkPos(positions, newpos)
 {
     let error = false;
-    //console.log("piece 1", piece);
-    //console.log(piece.positions.length);
-    //console.log(piece.positions[0].length);
-    for (let i = 0; i < piece.positions.length; i++)
+    for (let i = 0; i < positions.length; i++)
     {
-        for (let j = 0; j < piece.positions.length; j++)
+        for (let j = 0; j < positions[i].length; j++)
         {
-            //console.log("i == ", i, " j == ", j);
-            if (piece.positions[i][j] != "#FFFFFF" && (newpos.y + i > 19 || newpos.x + j > 10 || newpos.x + j < 0 || map[newpos.y + i][newpos.x + j] != "#FFFFFF"))
+            if (positions[i][j] != "#FFFFFF" && (newpos.y + i > 19 || newpos.x + j > 10 || newpos.x + j < 0 || map[newpos.y + i][newpos.x + j] != "#FFFFFF"))
                 error = true;
         }
     }
-    //console.log("piece 2", piece);
     return (error);
 }
 
@@ -356,8 +279,8 @@ function fctDrop(piece, shaddow)
     let newy;
     let error = false;
     let newpos = {x: piece.start.x, y: piece.start.y + 1};
-    error = checkPos(piece, newpos);
-    if (error /*|| !allowedMove(newpos, piece)*/)
+    error = checkPos(piece.positions, newpos);
+    if (error)
     {
         if (!shaddow)
         {
@@ -376,7 +299,7 @@ function lateralMove(dir)
 {
     let newx;
     let newpos = {x: currentPiece.start.x + dir , y: currentPiece.start.y};
-    let error = checkPos(currentPiece, newpos);
+    let error = checkPos(currentPiece.positions, newpos);
     if (!error)
         currentPiece.start = newpos;
 }
