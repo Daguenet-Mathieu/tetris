@@ -179,6 +179,11 @@ function getNextPiece(){
     {
         positions: [{x:3,y:0},{x:3,y:1},{x:3,y:2},{x:3,y:3}],
         axe: {x: 3.5, y:1.5},
+        rotate: [[{x:-1, y:+1},{x:0, y:0},{x:+1, y:-1},{x:+2, y:-2}],
+        [{x:+2, y:-1},{x:+1, y:0},{x:0, y:+1},{x:-1, y:+2}],
+        [{x:-2, y:+2},{x:-1, y:+1},{x:0, y:0},{x:+1, y:-1}],
+        [{x:+1, y:-2},{x:0, y:-1},{x:-1, y:0},{x:-2, y:+1}]],
+        rotateIndex:0,
         angle: 0,
         color:  "#0000FF",
         movable: true
@@ -528,14 +533,14 @@ function draw(){
     drawShadow(canvas);
 }
 
-function fallPiece(game)
+function eventDropPiece(game)
 {
     setInterval(() => {
       events.push("drop");
     }, 600);
 }
 
-function myEvent(){
+function keyEvent(){
     document.body.addEventListener("keydown", function(event, ){
         const listen = ["ArrowLeft", "ArrowDown", "ArrowUp","ArrowRight", "a", "d"];
         if (listen.find((key) => key == event.key) != undefined)
@@ -546,21 +551,49 @@ function myEvent(){
 
 function allowedMove(pos)
 {
-    console.log("piece ", currentPiece);
     for (let i = 0; i < 4; i++)
     {
-        //console.log("y == ", currentPiece.positions[i].y, " x == ", currentPiece.positions[i].x);
         if (map[pos[i].y][pos[i].x] != "#FFFFFF")
             return (false);
     }
     return (true);
 }
 
-function rotate()
+function rotate(dir)
 {
-    for (let i = 0; i < currentPiece.positions.length;i++)
+    let error = false;
+    let newpos = [];
+    let newXY = {x:-1,y:-1};
+    if (currentPiece.rotate !== undefined)
     {
-
+        let index = currentPiece.rotateIndex;
+        console.log("index == ", index);
+        currentPiece.rotateIndex += (dir == "a"?1:-1);
+        index = currentPiece.rotateIndex;
+        console.log("index == ", index);
+        if (currentPiece.rotateIndex == 4)
+        currentPiece.rotateIndex == 0;
+        else if (currentPiece.rotateIndex == -1)
+        currentPiece.rotateIndex = 3;
+        index = currentPiece.rotateIndex;
+        console.log("index == ", index);
+        console.log("current piece = ", currentPiece);
+        for (let i = 0; i < currentPiece.positions.length;i++)
+        {
+            console.log("x == ", currentPiece.positions[i].x, "y == ", currentPiece.positions[i].y);
+            console.log("rotate ", currentPiece.rotate[index][i]);
+            newXY.x = currentPiece.positions[i].x + currentPiece.rotate[index][i].x;
+            newXY.y = currentPiece.positions[i].y + currentPiece.rotate[index][i].y;
+            console.log("curr", currentPiece.positions[i]);
+            console.log("new", newXY);
+            if (newXY.x > 0 && newXY.x < 10 && newXY.y < 20 && newXY.y > 0)
+                newpos.push(newXY);
+            else
+                error = true;
+        }
+        console.log("newpos", newpos);
+        if (!error && allowedMove(newpos))
+            currentPiece.positions = newpos;
     }
 }
 
@@ -612,8 +645,8 @@ function lateralMove(dir)
     }
 }
 
-fallPiece();
-myEvent();
+eventDropPiece();
+keyEvent();
 let lastSize = 0;
 function loop()
 {
@@ -633,8 +666,8 @@ function loop()
         lateralMove(+1);
     if (move == "ArrowLeft")
         lateralMove(-1);
-    if (move == "a")
-        rotate();
+    if (move == "a" || move == "d")
+        rotate(move);
     removeLine(map);
     draw();
     requestAnimationFrame(loop);
