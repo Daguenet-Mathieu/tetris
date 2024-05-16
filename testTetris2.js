@@ -17,6 +17,22 @@ function drawCanevas(canvas, map){
     }
 }
 
+function drawPreview(canvas, piece) {
+    console.log(piece);
+    for (let y = 0; y < 4; y++) {
+        for (let x = 0; x < 4; x++) {
+            piece.fillStyle = "#FFFFFF";
+            console.log(piece);
+            if (typeof nextPiece.positions[y] !== 'undefined' && typeof piece.positions[y][x] !== 'undefined') {
+                canvas.fillStyle = piece.positions[y][x];
+            }
+            canvas.fillRect(x * 20, y * 20, 20, 20);
+        }
+    }
+}
+
+
+
 function drawPiece(canvas, piece){
     for (let y = 0; y < piece.width; y++) {
         for (let x = 0; x < piece.width; x++) {
@@ -57,16 +73,32 @@ function isValid(piece, map){
 
 function fctRotate(dir) {
     let newpos =  new Array(currentPiece.width);
-    let col = currentPiece.width - 1;
-    for (let i = 0; i < currentPiece.positions.length; i++)
+    let col;
+    console.log(currentPiece);
+    if (dir == 'a' || "ArrowUp")
     {
-        newpos[i] = [];
-        for (let j = 0; j < currentPiece.positions[i].length; j++)
-            newpos[i].push(currentPiece.positions[j][col]);
-        col--
+        col = currentPiece.width - 1;
+        for (let i = 0; i < currentPiece.positions.length; i++)
+        {
+            newpos[i] = [];
+            for (let j = 0; j < currentPiece.positions[i].length; j++)
+                newpos[i].push(currentPiece.positions[j][col]);
+            col--
+        }
     }
+    else
+    {
+        for (let i = 0; i < currentPiece.positions.length; i++)
+        {
+            newpos[i] = [];
+            for (let j = 0; j < currentPiece.positions[i].length; j++)
+                newpos[i].push(currentPiece.positions[j][i]);
+        }
+    }
+    console.log(newpos);
     if (!checkPos(newpos, currentPiece.start))
         currentPiece.positions = newpos;
+    console.log(currentPiece);
 }
 
 function fctDown(piece){
@@ -77,8 +109,8 @@ function fctDown(piece){
     }
 }
 
-function getCanevas() {
-    const canvas = document.getElementById('monCanevas');
+function getCanevas(name) {
+    const canvas = document.getElementById(name);
     const ctx = canvas.getContext('2d');
     return ctx;
 }
@@ -118,6 +150,7 @@ function removeLine(map)
             map.splice(i, 1);
             let newLine = new Array(10).fill("#FFFFFF");
             map.unshift(newLine);
+            lines++;
         }
     }
 }
@@ -139,61 +172,61 @@ function tetriminoI(){
 
 function tetriminoO(){
     const piece = {
-        width: 2,
+        width: 4,
         color: "#FFD700",
         start: {x: 4, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
-    piece.positions[0][0] = piece.color;
-    piece.positions[0][1] = piece.color;
-    piece.positions[1][0] = piece.color;
     piece.positions[1][1] = piece.color;
+    piece.positions[2][1] = piece.color;
+    piece.positions[1][2] = piece.color;
+    piece.positions[2][2] = piece.color;
     return (piece);
 }
 
 function tetriminoT(){
     const piece = {
-        width: 3,
+        width: 4,
         color: "#FF0000",
         start: {x: 3, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
-    piece.positions[1][2] = piece.color;
-    piece.positions[1][1] = piece.color;
-    piece.positions[1][0] = piece.color;
     piece.positions[0][1] = piece.color;
+    piece.positions[1][0] = piece.color;
+    piece.positions[1][1] = piece.color;
+    piece.positions[1][2] = piece.color;
     return (piece);
 }
 
 function tetriminoL(){
     const piece = {
-        width: 3,
+        width: 4,
         color: "#7F00FF",
         start: {x: 3, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
-    piece.positions[1][2] = piece.color;
     piece.positions[0][0] = piece.color;
     piece.positions[0][1] = piece.color;
-    piece.positions[0][2] = piece.color;
+    piece.positions[1][1] = piece.color;
+    piece.positions[1][2] = piece.color;
     return (piece);
 }
 
 function tetriminoJ(){
     const piece = {
-        width: 3,
+        width: 4,
         color: "#00FF00",
         start: {x: 3, y: 0},
         positions: []
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
+    piece.positions[0][1] = piece.color;
     piece.positions[0][2] = piece.color;
-    piece.positions[1][0] = piece.color;
     piece.positions[1][1] = piece.color;
-    piece.positions[1][2] = piece.color;
+    piece.positions[2][1] = piece.color;
     return (piece);
 }
 
@@ -206,9 +239,9 @@ function tetriminoS(){
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
     piece.positions[0][1] = piece.color;
-    piece.positions[0][2] = piece.color;
     piece.positions[1][0] = piece.color;
     piece.positions[1][1] = piece.color;
+    piece.positions[2][0] = piece.color;
     return (piece);
 }
 
@@ -221,9 +254,9 @@ function tetriminoZ(){
     };
     piece.positions = new Array(piece.width).fill().map(() => new Array(piece.width).fill("#FFFFFF"))
     piece.positions[0][0] = piece.color;
-    piece.positions[0][1] = piece.color;
+    piece.positions[1][0] = piece.color;
     piece.positions[1][1] = piece.color;
-    piece.positions[1][2] = piece.color;
+    piece.positions[2][1] = piece.color;
     return (piece);
 }
 
@@ -235,15 +268,24 @@ function getNextPiece2(){
 
 
 let events = [];
-const canvas = getCanevas();
+const canvas = getCanevas("monCanevas");
+const preview = getCanevas("preview");
+const keep = getCanevas("keep");
 const map = initMap();
 let currentPiece = getNextPiece2();
 let nextPiece = getNextPiece2();
+let keepPiece;
+let lines = 0;
 
 function draw(){
     drawCanevas(canvas, map);
     drawPiece(canvas, currentPiece);
     drawShadow(canvas, currentPiece);
+    drawPreview(preview, nextPiece);
+    console.log(keep, keepPiece);
+    if (typeof keepPiece !== "undefined")
+        drawPreview(keep, keepPiece);
+
 }
 
 function fallPiece(game)
@@ -254,10 +296,9 @@ function fallPiece(game)
 }
 function myEvent(){
     document.body.addEventListener("keydown", function(event, ){
-        const listen = ["ArrowLeft", "ArrowDown", "ArrowUp","ArrowRight", "a", "d"];
+        const listen = ["ArrowLeft", "ArrowDown", "ArrowUp","ArrowRight", "a", "d", " "];
         if (listen.find((key) => key == event.key) != undefined)
             events.push(event.key);
-        console.log("event ", event.key);
     })}
 
 function checkPos(positions, newpos)
@@ -295,6 +336,22 @@ function fctDrop(piece, shaddow)
     return (true);
 }
 
+function switchPiece()
+{
+    let tmp = currentPiece;
+    if (typeof keepPiece != "undefined" /*&& checkPos(keepPiece, keepPiece.start)*/)
+    {
+        currentPiece = keepPiece;
+        keepPiece = tmp;
+    }
+    else
+    {
+        keepPiece = currentPiece;
+        currentPiece = nextPiece;
+        nextPiece = getNextPiece2();
+    }
+}
+
 function lateralMove(dir)
 {
     let newx;
@@ -323,9 +380,12 @@ function loop()
         lateralMove(+1);
     if (move == "ArrowLeft")
         lateralMove(-1);
-    if (move == "a" || move == "d")
+    if (move == "a" || move == "d" || move == "ArrowUp")
         fctRotate(move);
+    if (move == " ")
+        switchPiece();
     removeLine(map);
+    document.getElementById("lines").innerText = lines;
     draw();
     requestAnimationFrame(loop);
 }
