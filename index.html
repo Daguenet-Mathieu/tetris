@@ -7,10 +7,53 @@
     <style>
         body {
             display: flex;
+            height: 100vh;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            margin:0px;
+        }
+        main{
+            display: flex;
+            width: 90%;
+            height: 90%;
+            border: 1px solid black;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .gameChoiceButton{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            width: 50%;
+            height: 20%;
+            border-radius: 20%;
+            background-color: green;
+        }
+        .Home{
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            width: 100px;
+            background-color: blueviolet;
+            top: 0%;
+            left: 0%;
+        }
+        .player-list{
+            list-style-type: none;
         }
         canvas {
             border: 1px solid black;
+            margin: 20px;
         }
+        .canvas-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
         #preview {
             height: 80px;
         }
@@ -20,10 +63,9 @@
         </style>
 </head>
 <body>
-    <canvas id="monCanevas" width="400" height="800"></canvas>
-    <canvas id="preview" width="80" height="80"></canvas>
-    <canvas id="keep" width="80" height="80"></canvas>
-    <div id="lines"></div>
+    <main></main>
 </body>
-<script src="testTetris2.js"></script>
+<script src="Tetrominos.js"></script>
+<script src="TetrisUtils.js"></script>
+<script src="IndexTetris.js"></script>
 </html>

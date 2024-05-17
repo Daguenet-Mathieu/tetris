@@ -54,7 +54,6 @@ function display()
         paddles.coorr[1].y += speed;
     canvas.beginPath();
     canvas.arc(ball.x, ball.y, 15, 0, 2 * Math.PI);
-    //canvas.stroke();
     canvas.fillStyle = "green";
     canvas.fill();
     canvas.fillStyle = "#FF0000";

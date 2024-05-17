@@ -5,13 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tetris</title>
     <style>
+        body {
+            display: flex;
+        }
         canvas {
             border: 1px solid black;
+        }
+        #preview {
+            height: 80px;
+        }
+        #keep {
+            height: 80px;
         }
         </style>
 </head>
 <body>
     <canvas id="monCanevas" width="400" height="800"></canvas>
+    <canvas id="preview" width="80" height="80"></canvas>
+    <canvas id="keep" width="80" height="80"></canvas>
+    <div id="lines"></div>
 </body>
 <script src="Tetrominos.js"></script>
 <script src="testTetris2.js"></script>
